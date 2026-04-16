@@ -1,0 +1,42 @@
+{
+  "name": "claude-session-optimizer",
+  "version": "0.1.0",
+  "description": "Schedule claude -p warm-ups to shift your 5-hour session window earlier.",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "package": "electron-vite build && electron-builder",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "electron": "^29.0.0",
+    "electron-builder": "^24.9.0",
+    "electron-vite": "^2.0.0",
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.2.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "build": {
+    "appId": "com.dbbaskette.claude-session-optimizer",
+    "productName": "Claude Session Optimizer",
+    "files": ["out/**/*", "scripts/**/*"],
+    "extraResources": [
+      { "from": "scripts/trigger.js", "to": "trigger.js" }
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": ["dmg"]
+    }
+  }
+}
