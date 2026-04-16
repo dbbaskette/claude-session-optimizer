@@ -25,6 +25,16 @@ export default function TriggerEditor({ trigger, onSave, onCancel }: Props) {
     }));
   };
 
+  const trimmedLabel = draft.label.trim();
+  const labelError = trimmedLabel === '' ? 'Label is required' : null;
+  const daysError = draft.weekdays.length === 0 ? 'Pick at least one day' : null;
+  const canSave = !labelError && !daysError;
+
+  const handleSave = () => {
+    if (!canSave) return;
+    onSave({ ...draft, label: trimmedLabel });
+  };
+
   return (
     <div className="modal-backdrop" onClick={onCancel}>
       <div className="modal" onClick={e => e.stopPropagation()}>
@@ -32,6 +42,7 @@ export default function TriggerEditor({ trigger, onSave, onCancel }: Props) {
         <div className="field">
           <label>Label</label>
           <input value={draft.label} onChange={e => setDraft({ ...draft, label: e.target.value })} />
+          {labelError && <div className="field-error">{labelError}</div>}
         </div>
         <div className="field">
           <label>Time</label>
@@ -50,10 +61,11 @@ export default function TriggerEditor({ trigger, onSave, onCancel }: Props) {
                 onClick={() => toggleDay(d.value)}>{d.label}</span>
             ))}
           </div>
+          {daysError && <div className="field-error">{daysError}</div>}
         </div>
         <div style={{ textAlign: 'right', marginTop: 16 }}>
           <button className="btn" onClick={onCancel}>Cancel</button>{' '}
-          <button className="btn primary" onClick={() => onSave(draft)}>OK</button>
+          <button className="btn primary" onClick={handleSave} disabled={!canSave}>OK</button>
         </div>
       </div>
     </div>
